@@ -78,12 +78,23 @@ sayHelloButton.addEventListener(`click`, sayHello)
 
 const ohMy = () => {
     axios.get("http://localhost:3000/animals")
-    .then(res=>{console.log(res.data)})
+    .then(res=>{
+        for (i=0; i<res.data.length; i++){
+            pElement = document.createElement(`p`)
+            pElement.textContent = res.data[i]
+            document.querySelector(`body`).appendChild(pElement)
+        }
+    })
 
 }
 
 document.getElementById('animals-button').addEventListener('click', ohMy)
 
+/* 
+    Back in the ohMy function on Problem 5, replace the console log in the promise's callback with a for loop that loops over res.data. 
+
+    On each iteration of the loop, create a new p element. Set its textContent equal the string at the current index (i) and then append the new p element onto the document's body. 
+*/
 
 // PROBLEM 6 
 /*
@@ -136,8 +147,8 @@ document.getElementById(`repeat-button`).addEventListener(`click`, repeatMyParam
 // CODE HERE
 
 queryTest = () => {
-    axios.get('http://localhost:3000/query-test?name=Curt')
-    .then(res=>{console.log(res)})
+    axios.get('http://localhost:3000/query-test?name=Curt&?name=Mak')
+    .then(res=>{console.log(res.data)})
 }
 
 document.getElementById(`query-button`).addEventListener('click',queryTest)
@@ -193,4 +204,29 @@ document.getElementById(`query-button`).addEventListener('click',queryTest)
     Based on what we did earlier to display this type of data, write code that will display the response in your HTML document. 
 */
 
-// CODE HERE 
+//We added a counter so that only the food that we just entered would show up on the page, and when you refresh the page it would restart the js but no the server. This would throw the counter off if I set it to zero outside the function, because the counter would be at zero but the server foods could be at 5 or example. Now definind counter=res.data.length-1 no matter how many food elements we have added it still shows the most recent one. 
+
+let foodList = document.createElement('ul')
+document.querySelector(`body`).appendChild(foodList)
+
+const createFood = (event) => {
+    event.preventDefault()
+    let foodInput = document.querySelector(`input`)
+    let body = {
+        newFood: foodInput.value
+    }
+    axios.post(`http://localhost:3000/food`, body)
+    .then(res=>{
+        let counter=res.data.length-1
+        console.log(res.data)
+        let food = document.createElement('li')
+        food.textContent = res.data[counter]
+        document.querySelector(`ul`).appendChild(food)
+        food.display = "block"
+        counter++
+        foodInput=""
+    })
+    .catch(error => {console.log(`hi`)})
+}
+
+document.querySelector(`#foodBtn`).addEventListener('click', createFood)
