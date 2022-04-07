@@ -9,7 +9,7 @@
     Use querySelector to select that button and save it to a variable called sayHelloButton
 */
 
-// CODE HERE
+sayHelloButton = document.querySelector(`#say-hello-button`)
 
 
 // PROBLEM 2
@@ -19,8 +19,12 @@
     Attach a mouseover event to sayHelloButton that calls the function you wrote
 */
 
-// CODE HERE
+const helloColor = () => {
+    sayHelloButton.style.backgroundColor=`black`
+    sayHelloButton.style.color = `white`
+}
 
+sayHelloButton.addEventListener('mouseover', helloColor)
 
 // PROBLEM 3
 /*
@@ -31,7 +35,13 @@
     Attach another listener that fires your second function when the mouseout event occurs on the button
 */
 
-// CODE HERE
+const helloOGColor = () => {
+
+    sayHelloButton.style.backgroundColor=`#EFEFEF`
+    sayHelloButton.style.color = `black`
+}
+
+sayHelloButton.addEventListener('mouseout', helloOGColor)
 
 
 // PROBLEM 4
@@ -52,7 +62,7 @@ const sayHello = () => {
 }
 // DO NOT EDIT FUNCTION
 
-// CODE HERE
+sayHelloButton.addEventListener(`click`, sayHello)
 
 
 // PROBLEM 5 
@@ -67,7 +77,9 @@ const sayHello = () => {
 */ 
 
 const ohMy = () => {
-    // YOUR CODE HERE
+    axios.get("http://localhost:3000/animals")
+    .then(res=>{console.log(res.data)})
+
 }
 
 document.getElementById('animals-button').addEventListener('click', ohMy)
@@ -87,8 +99,19 @@ document.getElementById('animals-button').addEventListener('click', ohMy)
 */
 
 const repeatMyParam = () => {
-    //YOUR CODE HERE
+    axios.get('http://localhost:3000/repeat/lalalala')
+    .then(res => {
+        repeatText = document.getElementById(`repeat-text`)
+        console.log(res.data)
+        repeatText.textContent = res.data
+        repeatText.style.display = 'block';
+        repeatText.style.backgroundColor = 'green';
+    })
 }
+
+document.getElementById(`repeat-button`).addEventListener(`click`, repeatMyParam)
+
+
 
 // PROBLEM 7
 /*
@@ -99,7 +122,7 @@ const repeatMyParam = () => {
 
 // Code in the repeatMyParam function above
 
-
+//Done
 
 // PROBLEM 8
 /*
@@ -111,6 +134,13 @@ const repeatMyParam = () => {
 */
 
 // CODE HERE
+
+queryTest = () => {
+    axios.get('http://localhost:3000/query-test?name=Curt')
+    .then(res=>{console.log(res)})
+}
+
+document.getElementById(`query-button`).addEventListener('click',queryTest)
 
 
 
